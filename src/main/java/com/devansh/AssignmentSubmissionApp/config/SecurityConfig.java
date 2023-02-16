@@ -1,8 +1,7 @@
 package com.devansh.AssignmentSubmissionApp.config;
 
-import javax.servlet.http.HttpServletResponse;
 
-import org.aspectj.weaver.ast.And;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,7 +45,7 @@ public class SecurityConfig {
 //	     })
 	     .and()
 	     .authorizeHttpRequests().antMatchers("/api/auth/**").permitAll()
-	     .anyRequest().permitAll();
+	     .anyRequest().authenticated();	
 //	    
 //		http. 
 //		csrf().disable()

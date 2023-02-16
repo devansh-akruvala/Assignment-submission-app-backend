@@ -50,12 +50,13 @@ public class Assignment {
 	public void setCodeReviewVideoUrl(String codeReviewVideoUrl) {
 		this.codeReviewVideoUrl = codeReviewVideoUrl;
 	}
-	public User getAssignedTo() {
+	public User getUser() {
 		return user;
 	}
-	public void setAssignedTo(User user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
+	
 	
 	
 	
