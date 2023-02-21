@@ -2,6 +2,8 @@ package com.devansh.AssignmentSubmissionApp.config;
 
 
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,10 +41,10 @@ public class SecurityConfig {
 		http.addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class);
 	     http.csrf().disable().cors().disable()
 	     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//	     .and().exceptionHandling()
-//	     .authenticationEntryPoint((request,response,ex) -> {
-//	    	 response.sendError(HttpServletResponse.SC_UNAUTHORIZED,ex.getMessage());
-//	     })
+	     .and().exceptionHandling()
+	     .authenticationEntryPoint((request,response,ex) -> {
+	    	 response.sendError(HttpServletResponse.SC_UNAUTHORIZED,ex.getMessage());
+	     })
 	     .and()
 	     .authorizeHttpRequests().antMatchers("/api/auth/**").permitAll()
 	     .anyRequest().authenticated();	

@@ -1,6 +1,6 @@
 package com.devansh.AssignmentSubmissionApp.controller;
 
-import java.lang.StackWalker.Option;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.devansh.AssignmentSubmissionApp.dto.AssignmentResponseDto;
 import com.devansh.AssignmentSubmissionApp.model.Assignment;
 import com.devansh.AssignmentSubmissionApp.model.User;
 import com.devansh.AssignmentSubmissionApp.service.AssignmentService;
@@ -41,7 +42,7 @@ public class AssignmentController {
 	@GetMapping("{assignmentId}")
 	public ResponseEntity<?> getAssignments(@PathVariable("assignmentId") Long assignmentId, @AuthenticationPrincipal User user){
 		Optional<Assignment> assignment = assignmentService.findById(assignmentId);
-		return ResponseEntity.ok(assignment);
+		return ResponseEntity.ok(new AssignmentResponseDto(assignment.orElse(null)));
 	}
 	
 	@PutMapping("{assignmentId}")

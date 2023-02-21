@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.devansh.AssignmentSubmissionApp.enums.AssignmentStatusEnum;
 import com.devansh.AssignmentSubmissionApp.model.Assignment;
 import com.devansh.AssignmentSubmissionApp.model.User;
 import com.devansh.AssignmentSubmissionApp.repository.AssignmentRepository;
@@ -18,11 +19,29 @@ public class AssignmentService {
 	
 	public Assignment save(User user) {
 		Assignment assignment = new Assignment();
-		assignment.setStatus("Needs to be submitted");
+		assignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.getStatus());
 		assignment.setUser(user);
+		assignment.setNumber(findNextAssignmentTobeSubmitted(user));
 		return assignmentRepository.save(assignment);
 	}
 	
+	private Integer findNextAssignmentTobeSubmitted(User user) {
+		List<Assignment> assignmentByUser = assignmentRepository.findByUser(user);
+		if(assignmentByUser==null)
+			return 1;
+		Optional<Integer> findFirst = assignmentByUser.stream().sorted((a1,a2)->{
+			if(a1.getNumber()==null) return 1;
+			if(a2.getNumber()==null) return 1;
+			return a1.getNumber().compareTo(a2.getNumber());
+		}).map(assignment -> {
+			if(assignment.getNumber()==null)
+				return 1;
+			return assignment.getNumber()+1;
+			}).findFirst();
+		
+		return findFirst.orElse(1);
+	}
+
 	public List<Assignment> findByUser(User user){
 		return assignmentRepository.findByUser(user);
 	}
